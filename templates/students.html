@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Details</title>
+</head>
+<body>
+    <!-- Add a search form -->
+<form action="{{ url_for('get_students') }}" method="GET" style="margin: 30px;">
+  <input type="text" name="search" placeholder="Search by name">
+  <button type="submit">Search</button>
+</form>
+
+<!-- Display the students -->
+<table style="margin-left: 40px; border: black 2px">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <td>{{ student.id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.age }}</td>
+      <td>{{ student.grade }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br>
+    {% if total_pages > 1 %}
+    <div style="margin-left: 40px;">
+        {% if page > 1 %}
+        <a href="{{ url_for('get_students', page=page-1, page_size=page_size) }}">Previous</a>
+        {% endif %}
+
+        {% for p in range(1, total_pages+1) %}
+        {% if p == page %}
+        <strong>{{ p }}</strong>
+        {% else %}
+        <a href="{{ url_for('get_students', page=p, page_size=page_size) }}">{{ p }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if page < total_pages %}
+        <a href="{{ url_for('get_students', page=page+1, page_size=page_size) }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
